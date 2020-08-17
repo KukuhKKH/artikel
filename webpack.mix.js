@@ -13,3 +13,21 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
+
+// Dashboard
+
+mix.styles([
+    'public/css/bootstrap.min.css',
+    'public/css/animate.css',
+    'public/css/style.css'
+], 'public/css/dashboard.css')
+
+mix.scripts([
+    'public/js/jquery-3.1.1.min.js',
+    'public/js/popper.min.js',
+    'public/js/bootstrap.min.js',
+    'public/vendor/metisMenu/jquery.metisMenu.js',
+    'public/vendor/slimscroll/jquery.slimscroll.min.js',
+    'public/js/inspinia.js',
+    'public/vendor/pace/pace.min.js'
+], 'public/js/dashboard.js')

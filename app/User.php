@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Traits\UuidTrait;
+use App\Traits\Uuids;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -11,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable, SoftDeletes, HasRoles, UuidTrait;
+    use Notifiable, SoftDeletes, HasRoles, Uuids;
 
     /**
      * The attributes that are mass assignable.
@@ -37,12 +37,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'id' => 'string',
+        'email_verified_at' => 'datetime'
     ];
 
     public function setPasswordAttribute($value) {
         $this->attributes['password'] = Hash::make($value);
     }
-    
-    public $incrementing = false;
 }
