@@ -13,8 +13,22 @@ class Artikel extends Model
     protected $table = 'artikel';
     protected $casts = ['id' => 'string'];
     protected $guarded = [];
+    protected $with = ['kategori'];
+    protected $appends = ['gambar_url'];
 
     public function kategori() {
         return $this->belongsToMany('App\Models\Kategori', 'artikel_kategori', 'artikel_id', 'kategori_id');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
+
+    public function getGambarUrlAttribute() {
+        if(isset($this->gambar)) {
+            return url('upload/artikel/' . $this->gambar);
+        } else {
+            return url('images/user.png');
+        }
     }
 }

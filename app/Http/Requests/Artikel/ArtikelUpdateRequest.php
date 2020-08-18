@@ -4,7 +4,7 @@ namespace App\Http\Requests\Artikel;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ArtikelCreateRequest extends FormRequest
+class ArtikelUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,24 +24,11 @@ class ArtikelCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'nama' => 'required|min:5|max:255|unique:artikel',
+            'nama' => 'required|min:5|max:255|unique:artikel,nama,'.$this->request->get('id'),
             'deskripsi' => 'required',
             'kategori' => 'required',
             'gambar' => 'mimes:jpeg,png,bmp,tiff|max:5120',
             'status' => 'required|numeric'
         ];
     }
-
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
-    // public function messages()
-    // {
-    //     return [
-    //         'mimes' => 'Itu bukan gambar bro.'
-    //     ];
-    // }
-
 }

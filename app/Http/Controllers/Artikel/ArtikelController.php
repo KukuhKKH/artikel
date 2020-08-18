@@ -9,6 +9,7 @@ use App\Traits\ImageHandlerTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Artikel\ArtikelCreateRequest;
+use App\Http\Requests\Artikel\ArtikelUpdateRequest;
 
 class ArtikelController extends Controller
 {
@@ -68,7 +69,8 @@ class ArtikelController extends Controller
                 'gambar' => $request->gambar,
                 'nama' => $request->nama,
                 'deskripsi' => $request->deskripsi,
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'status' => $request->status
             ]);
             $artikel->kategori()->attach($request->kategori);
             return redirect()->route('artikel.index')->with(['sukses' => 'Tambah Artikel Berhasil']);
@@ -85,7 +87,12 @@ class ArtikelController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $artikel = Artikel::find($id);
+            return view('dashboard.artikel.show', compact('artikel'));
+        } catch(\Exception $e) {
+            return redirect()->back()->with(['gagal' => $e->getMessage()])->withInput();
+        }
     }
 
     /**
@@ -96,7 +103,9 @@ class ArtikelController extends Controller
      */
     public function edit($id)
     {
-        //
+        $artikel = Artikel::find($id);
+        $kategori = Kategori::all();
+        return view('dashboard.artikel.update', compact('artikel', 'kategori'));
     }
 
     /**
@@ -106,9 +115,25 @@ class ArtikelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ArtikelUpdateRequest $request, $id)
     {
-        //
+        try {
+            if ($request->file('image')) {
+                $this->uploadImage($request, $this->pathImage);
+            }
+            $user = Auth::user();
+            $artikel = Artikel::find($id);
+            $artikel->update([
+                'gambar' => ($request->gambar != null) ? $request->gambar : $artikel->gambar,
+                'nama' => $request->nama,
+                'deskripsi' => $request->deskripsi,
+                'status' => $request->status
+            ]);
+            $artikel->kategori()->attach($request->kategori);
+            return redirect()->route('artikel.index')->with(['sukses' => 'Update Artikel Berhasil']);
+        } catch(\Exception $e) {
+            return redirect()->back()->with(['gagal' => $e->getMessage()])->withInput();
+        }
     }
 
     /**
