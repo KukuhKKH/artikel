@@ -44,4 +44,12 @@ class User extends Authenticatable
     public function setPasswordAttribute($value) {
         $this->attributes['password'] = Hash::make($value);
     }
+
+    public function kategori() {
+        return $this->hasMany('App\Models\Kategori');
+    }
+
+    public function artikel() {
+        return $this->hasMany('App\Models\Artikel');
+    }
 }

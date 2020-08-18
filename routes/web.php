@@ -14,13 +14,25 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('soon');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/admin', function() {
-    return view('layouts.admin');
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
+
+Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'role:Admin,Writer']], function() {
+    Route::get('/', 'PageController@home')->name('dashboard');
+
+    Route::get('/artikel/sampah', 'Artikel\ArtikelController@sampah')->name('artikel.sampah');
+    Route::post('/artikel/puilhkan/{id}', 'Artikel\ArtikelController@restore')->name('artikel.restore');
+    Route::Resource('/artikel', 'Artikel\ArtikelController');
+
+    Route::get('/kategori/sampah', 'Artikel\KategoriController@sampah')->name('kategori.sampah');
+    Route::post('/kategori/puilhkan/{id}', 'Artikel\KategoriController@restore')->name('kategori.restore');
+    Route::Resource('/kategori', 'Artikel\KategoriController')->except(['show']);
 });
