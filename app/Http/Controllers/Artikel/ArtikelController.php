@@ -69,6 +69,7 @@ class ArtikelController extends Controller
                 'gambar' => $request->gambar,
                 'nama' => $request->nama,
                 'deskripsi' => $request->deskripsi,
+                'slug' => \Str::slug($request->nama),
                 'user_id' => $user->id,
                 'status' => $request->status
             ]);
@@ -127,6 +128,7 @@ class ArtikelController extends Controller
                 'gambar' => ($request->gambar != null) ? $request->gambar : $artikel->gambar,
                 'nama' => $request->nama,
                 'deskripsi' => $request->deskripsi,
+                'slug' => \Str::slug($request->nama),
                 'status' => $request->status
             ]);
             $artikel->kategori()->attach($request->kategori);
@@ -144,12 +146,13 @@ class ArtikelController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Artikel::find($id)->delete();
+        return redirect()->route('artikel.index')->with(['sukses' => 'Hapus Artikel Berhasil']);
     }
 
     public function sampah() {
-        $kategori = Artikel::onlyTrashed()->latest()->paginate(5);
-        return view('dashboard.artikel.sampah', compact('kategori'));
+        $artikel = Artikel::onlyTrashed()->latest()->paginate(5);
+        return view('dashboard.artikel.sampah', compact('artikel'));
     }
 
     /**
@@ -161,9 +164,9 @@ class ArtikelController extends Controller
 
     public function restore($id) {
         try {
-            // $kategori = Kategori::onlyTrashed()->find($id);
-            // $kategori->restore();
-            // return redirect()->route('artikel.index')->with(['sukses' => 'Memulihkan Kategori Berhasil']);
+            $artikel = Artikel::onlyTrashed()->find($id);
+            $artikel->restore();
+            return redirect()->route('artikel.index')->with(['sukses' => 'Memulihkan Artikel Berhasil']);
         } catch(\Exception $e) {
             return redirect()->back()->with(['gagal' => $e->getMessage()])->withInput();
         }
