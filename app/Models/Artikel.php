@@ -24,6 +24,10 @@ class Artikel extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function komentar() {
+        return $this->hasMany('App\Models\Komentar');
+    }
+
     public function getGambarUrlAttribute() {
         if(isset($this->gambar)) {
             return url('upload/artikel/' . $this->gambar);

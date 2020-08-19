@@ -19,7 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/blog', 'PageController@blog')->name('blog.index');
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
@@ -28,11 +28,13 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'role:Admin,Writer']], function() {
     Route::get('/', 'PageController@home')->name('dashboard');
 
-    Route::get('/artikel/sampah', 'Artikel\ArtikelController@sampah')->name('artikel.sampah');
-    Route::post('/artikel/puilhkan/{id}', 'Artikel\ArtikelController@restore')->name('artikel.restore');
-    Route::Resource('/artikel', 'Artikel\ArtikelController');
-
-    Route::get('/kategori/sampah', 'Artikel\KategoriController@sampah')->name('kategori.sampah');
-    Route::post('/kategori/puilhkan/{id}', 'Artikel\KategoriController@restore')->name('kategori.restore');
-    Route::Resource('/kategori', 'Artikel\KategoriController')->except(['show']);
+    Route::group(['namespace' => 'Artikel'], function (){
+        Route::get('/artikel/sampah', 'ArtikelController@sampah')->name('artikel.sampah');
+        Route::post('/artikel/puilhkan/{id}', 'ArtikelController@restore')->name('artikel.restore');
+        Route::Resource('/artikel', 'ArtikelController');
+    
+        Route::get('/kategori/sampah', 'KategoriController@sampah')->name('kategori.sampah');
+        Route::post('/kategori/puilhkan/{id}', 'KategoriController@restore')->name('kategori.restore');
+        Route::Resource('/kategori', 'KategoriController')->except(['show']);
+    });
 });
