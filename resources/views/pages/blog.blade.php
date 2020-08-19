@@ -31,7 +31,7 @@
                      </div>
 
                      <div class="blog_details">
-                        <a class="d-inline-block" href="single-blog.html">
+                        <a class="d-inline-block" href="{{ route('blog.slug', $value->slug) }}">
                            <h2>{{ $value->nama }}</h2>
                         </a>
                         @php
@@ -46,7 +46,7 @@
                                  @endforeach
                               </a>
                            </li>
-                           {{-- <li><a href="#"><i class="fa fa-comments"></i> {{ $artikel->komentar->count() }} Comments</a></li> --}}
+                           <li><a href="#"><i class="fa fa-comments"></i> {{ $value->komentar->count() ?? 0 }} Comments</a></li>
                         </ul>
                      </div>
                   </article>

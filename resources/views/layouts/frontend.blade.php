@@ -20,7 +20,7 @@
          <div class="preloader-inner position-relative">
             <div class="preloader-circle"></div>
             <div class="preloader-img pere-text">
-               <img src="images/logo/loder.jpg" alt="">
+               <img src="{{ asset('images/logo/loder.jpg') }}" alt="">
             </div>
          </div>
       </div>
@@ -36,7 +36,7 @@
                      <!-- Logo -->
                      <div class="col-xl-2 col-lg-1 col-md-1">
                         <div class="logo">
-                           <a href="index.html"><img src="images/logo/logo.png" alt=""></a>
+                           <a href="index.html"><img src="{{ asset('images/logo/logo.png') }}" alt=""></a>
                         </div>
                      </div>
                      <div class="col-xl-8 col-lg-8 col-md-8">
@@ -94,7 +94,7 @@
                         <div class="single-footer-caption mb-30">
                            <!-- logo -->
                            <div class="footer-logo">
-                              <a href="index.html"><img src="images/logo/logo2_footer.png" alt=""></a>
+                              <a href="index.html"><img src="{{ asset('images/logo/logo2_footer.png') }}" alt=""></a>
                            </div>
                         </div>
                      </div>

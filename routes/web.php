@@ -20,6 +20,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/blog', 'PageController@blog')->name('blog.index');
+Route::get('/blog/{slug}', 'PageController@slug')->name('blog.slug');
+Route::post('/komentar', 'Artikel\ArtikelController@komentar')->name('blog.komentar');
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();

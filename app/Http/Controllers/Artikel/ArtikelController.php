@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Artikel;
 
 use App\Models\Artikel;
 use App\Models\Kategori;
+use App\Models\Komentar;
 use Illuminate\Http\Request;
 use App\Traits\ImageHandlerTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\KomentarCreateRequest;
 use App\Http\Requests\Artikel\ArtikelCreateRequest;
 use App\Http\Requests\Artikel\ArtikelUpdateRequest;
 
@@ -22,7 +24,7 @@ class ArtikelController extends Controller
      * @return void
      */
     public function __construct() {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['komentar']);
         $this->middleware('permission:create artikel', ['only' => ['store']]);
         $this->middleware('permission:read artikel',   ['only' => ['index', 'show']]);
         $this->middleware('permission:update artikel', ['only' => ['update', 'edit']]);
@@ -168,6 +170,22 @@ class ArtikelController extends Controller
             $artikel->restore();
             return redirect()->route('artikel.index')->with(['sukses' => 'Memulihkan Artikel Berhasil']);
         } catch(\Exception $e) {
+            return redirect()->back()->with(['gagal' => $e->getMessage()])->withInput();
+        }
+    }
+
+    /**
+     * Comment Article.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function komentar(KomentarCreateRequest $request) {
+        try {
+            Komentar::create($request->all());
+            return redirect()->back();
+        } catch(\Exception $e) {
+            echo $e->getMessage();
             return redirect()->back()->with(['gagal' => $e->getMessage()])->withInput();
         }
     }
