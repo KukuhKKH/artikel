@@ -39,4 +39,8 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'role:Admin,Writ
         Route::post('/kategori/puilhkan/{id}', 'KategoriController@restore')->name('kategori.restore');
         Route::Resource('/kategori', 'KategoriController')->except(['show']);
     });
+
+    Route::get('/webinar/sampah', 'WebinarController@sampah')->name('webinar.sampah');
+    Route::post('/webinar/puilhkan/{id}', 'WebinarController@restore')->name('webinar.restore');
+    Route::resource('/webinar', 'WebinarController');
 });

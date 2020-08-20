@@ -33,6 +33,9 @@
                <li class="{{ ($segment2 == 'kategori') ? 'active' : '' }}"><a href="{{ route('kategori.index') }}">Kategori</a></li>
             </ul>
          </li>
+         <li class="{{ ($segment2 == 'webinar') ? 'active' : '' }}">
+            <a href="{{ route('webinar.index') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Webinar</span></a>
+         </li>
       </ul>
 
    </div>

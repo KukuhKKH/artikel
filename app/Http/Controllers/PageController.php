@@ -18,7 +18,7 @@ class PageController extends Controller
 
         $artikel = Artikel::when($request->q, function($artikel) use ($request) {
             $artikel->where('nama', 'LIKE', '%'.$request->q.'%');
-        })->with(['komentar'])->orderBy("created_at", "DESC")->paginate(10);
+        })->with(['komentar'])->where('status', 2)->orderBy("created_at", "DESC")->paginate(10);
         $kategori = Kategori::all();
         return view('pages.blog', compact('artikel', 'kategori', 'berita'));
     }
