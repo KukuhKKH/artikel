@@ -13,4 +13,13 @@ class Webinar extends Model
     protected $table = 'webinar';
     protected $casts = ['id' => 'string'];
     protected $guarded = [];
+    protected $appends = ['gambar_url'];
+
+    public function getGambarUrlAttribute() {
+        if(isset($this->poster)) {
+            return url('upload/webinar/' . $this->poster);
+        } else {
+            return url('images/user.png');
+        }
+    }
 }

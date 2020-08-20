@@ -6,6 +6,7 @@ use App\Models\Webinar;
 use Illuminate\Http\Request;
 use App\Traits\ImageHandlerTrait;
 use App\Http\Requests\Webinar\WebinarCreateRequest;
+use App\Http\Requests\Webinar\WebinarUpdateRequest;
 
 class WebinarController extends Controller
 {
@@ -82,7 +83,12 @@ class WebinarController extends Controller
      */
     public function show($id)
     {
-        //
+        try {
+            $webinar = Webinar::find($id);
+            return view('dashboard.webinar.show', compact('webinar'));
+        } catch(\Exception $e) {
+            return redirect()->back()->with(['gagal' => $e->getMessage()])->withInput();
+        }
     }
 
     /**
@@ -93,7 +99,8 @@ class WebinarController extends Controller
      */
     public function edit($id)
     {
-        //
+        $webinar = Webinar::find($id);
+        return view('dashboard.webinar.update', compact('webinar'));
     }
 
     /**
@@ -103,9 +110,31 @@ class WebinarController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(WebinarUpdateRequest $request, $id)
     {
-        //
+        try {
+            $tglMulai = str_replace('/', '-', $request->mulai);
+            $tglAkhir = str_replace('/', '-', $request->akhir);
+
+            if(strtotime($tglMulai) > strtotime($tglAkhir)) {
+                return redirect()->back()->with(['gagal' => 'Tanggal akhir tidak boleh mendahului Tanggal Mulai'])->withInput();
+            }
+
+            if ($request->file('image')) {
+                $this->uploadImage($request, $this->pathImage);
+            }
+            $webinar = Webinar::find($id);
+            $webinar->update([
+                'poster' => ($request->gambar != null) ? $request->gambar : $webinar->poster,
+                'nama' => $request->nama,
+                'deskripsi' => $request->deskripsi,
+                'mulai' => date('Y-m-d', strtotime($tglMulai)),
+                'akhir' => date('Y-m-d', strtotime($tglAkhir))
+            ]);
+            return redirect()->route('webinar.index')->with(['sukses' => 'Update Webinar Berhasil']);
+        } catch(\Exception $e) {
+            return redirect()->back()->with(['gagal' => $e->getMessage()])->withInput();
+        }
     }
 
     /**
@@ -116,7 +145,8 @@ class WebinarController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Webinar::find($id)->delete();
+        return redirect()->route('webinar.index')->with(['sukses' => 'Hapus Webinar Berhasil']);
     }
 
     public function sampah() {

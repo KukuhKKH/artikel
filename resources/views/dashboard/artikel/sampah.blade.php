@@ -6,7 +6,7 @@
       <div class="ibox ">
          <div class="ibox-title pb-3">
             <a href="{{ route('artikel.create') }}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Artikel</a>
-            <a href="{{ route('artikel.sampah') }}" class="btn btn-outline-success">Sampah</a>
+            <a href="{{ route('artikel.index') }}" class="btn btn-success">Kembali</a>
          </div>
          <div class="ibox-content">
 
