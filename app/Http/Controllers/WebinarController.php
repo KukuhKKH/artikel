@@ -65,6 +65,7 @@ class WebinarController extends Controller
             $webinar = Webinar::create([
                 'poster' => $request->gambar,
                 'nama' => $request->nama,
+                'url' => $request->url,
                 'deskripsi' => $request->deskripsi,
                 'mulai' => date('Y-m-d', strtotime($tglMulai)),
                 'akhir' => date('Y-m-d', strtotime($tglAkhir))
@@ -127,6 +128,7 @@ class WebinarController extends Controller
             $webinar->update([
                 'poster' => ($request->gambar != null) ? $request->gambar : $webinar->poster,
                 'nama' => $request->nama,
+                'url' => $request->url,
                 'deskripsi' => $request->deskripsi,
                 'mulai' => date('Y-m-d', strtotime($tglMulai)),
                 'akhir' => date('Y-m-d', strtotime($tglAkhir))

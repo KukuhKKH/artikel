@@ -21,6 +21,15 @@
                            @enderror
                         </div>
                         <div class="form-group">
+                           <label for="">Url</label>
+                           <input type="text" class="form-control @error('url') is-invalid @enderror" name="url" value="{{ $webinar->url }}">
+                           @error('url')
+                           <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                           </span>
+                           @enderror
+                        </div>
+                        <div class="form-group">
                            <label for="">Deskripsi</label>
                            <textarea name="deskripsi" id="deskripsi" cols="5" rows="5" class="form-control @error('deskripsi') is-invalid @enderror">{{ $webinar->deskripsi }}</textarea>
                            @error('deskripsi')

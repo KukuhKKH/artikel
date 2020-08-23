@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Artikel;
+use App\Models\Webinar;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -10,7 +11,14 @@ use Illuminate\Support\Facades\Http;
 class PageController extends Controller
 {
     public function home() {
-        return view('dashboard.home');
+        $launch = '2010/08/25';
+        if(date('Y/m/d') > $launch) {
+            $artikel = Artikel::limit(5)->get();
+            $webinar = Webinar::limit(5)->get();
+
+            return view('welcome', compact('artikel', 'webinar'));
+        }
+        return view('soon', ['launch' => $launch]);
     }
 
     public function blog(Request $request) {

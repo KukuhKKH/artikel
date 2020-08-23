@@ -38,7 +38,7 @@
                   <p class="text-muted">We're making the system more awesome.</p>
                   <div class="row mt-5 justify-content-center">
                      <div class="col-md-8">
-                        <div data-countdown="2020/08/22" class="counter-number"></div>
+                        <div data-countdown="{{ $launch }}" class="counter-number"></div>
                      </div>
                   </div>
                </div>

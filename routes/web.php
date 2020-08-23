@@ -13,9 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('soon');
-});
+// Route::get('/', function () {
+//     $launch = '2020/08/25';
+//     if(date('Y/m/d') > $launch) return view('welcome');
+//     return view('soon', ['launch' => $launch]);
+// });
+
+Route::get('/', 'PageController@home')->name('home');
 
 Auth::routes();
 

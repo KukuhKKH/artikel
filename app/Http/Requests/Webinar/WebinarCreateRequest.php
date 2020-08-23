@@ -25,6 +25,7 @@ class WebinarCreateRequest extends FormRequest
     {
         return [
             'nama' => 'required',
+            'url' => 'required',
             'deskripsi' => 'required',
             'image' => 'required|mimes:jpeg,png,bmp,tiff|max:5120',
             'mulai' => 'required',
