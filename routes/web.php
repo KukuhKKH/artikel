@@ -32,7 +32,7 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']
 });
 
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'role:Admin,Writer']], function() {
-    Route::get('/', 'PageController@home')->name('dashboard');
+    Route::get('/', 'PageController@dashboard')->name('dashboard');
 
     Route::group(['namespace' => 'Artikel'], function (){
         Route::get('/artikel/sampah', 'ArtikelController@sampah')->name('artikel.sampah');

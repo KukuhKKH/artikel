@@ -21,6 +21,10 @@ class PageController extends Controller
         return view('soon', ['launch' => $launch]);
     }
 
+    public function dashboard() {
+        return view('dashboard.home');
+    }
+
     public function blog(Request $request) {
         $berita = $this->_getNewsIndo();
 
